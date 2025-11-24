@@ -21,7 +21,7 @@ def measure_throughput(model, prompts, batch_size, max_new_tokens=50):
     start_time = time.time()
     outputs = model.generate(
         batch_prompts,
-        sampling_params=SamplingParams(max_new_tokens=max_new_tokens),
+        sampling_params=SamplingParams(max_tokens=max_new_tokens),
     )
     end_time = time.time()
 
