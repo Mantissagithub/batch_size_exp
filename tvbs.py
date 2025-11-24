@@ -33,7 +33,7 @@ def measure_throughput(model, prompts, batch_size, max_new_tokens=50):
     return throughput
 
 if __name__ == "__main__":
-    model = LLM(model_name, tensor_parallel_size=torch.cuda.device_count())
+    model = LLM(model_name, tensor_parallel_size=torch.cuda.device_count(), trust_remote_code=True)
 
     results = {}
 
