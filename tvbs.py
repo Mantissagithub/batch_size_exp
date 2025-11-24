@@ -26,7 +26,7 @@ def measure_throughput(model, prompts, batch_size, max_new_tokens=50):
     )
     end_time = time.time()
 
-    total_tokens = sum(len(output.sequences[0]) for output in outputs)
+    total_tokens = sum(len(outputs[0].outputs[0].text) for output in outputs)
 
     elapsed_time = end_time - start_time
     throughput = total_tokens / elapsed_time if elapsed_time > 0 else 0
