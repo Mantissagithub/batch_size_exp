@@ -12,7 +12,7 @@ prompts = [
     "How does photosynthesis work in plants?",
 ]
 
-batch_sizes = [1, 2, 4, 8, 16, 32, 64]
+batch_sizes = [1, 2, 4, 8, 16, 32, 64, 128, 256]
 
 def measure_throughput(model, prompts, batch_size, max_new_tokens=50):
     # preparing the batch of prompts
@@ -46,13 +46,83 @@ if __name__ == "__main__":
 
     # plotting the results
     import matplotlib.pyplot as plt
-    plt.figure(figsize=(10, 6))
-    plt.plot(list(results.keys()), list(results.values()), marker='o')
-    plt.title('Throughput vs Batch Size for internlm2-chat-7b')
-    plt.xlabel('Batch Size')
-    plt.ylabel('Throughput (tokens/sec)')
-    plt.xscale('log', base=2)
-    plt.yscale('log')
-    plt.grid(True, which="both", ls="--")
-    plt.savefig('throughput_vs_batch_size_internlm2_chat_7b.png')
+    import numpy as np
+
+    # Enhanced plotting with more comprehensive features
+    plt.style.use('seaborn-v0_8-darkgrid')  # Professional styling
+    fig, ax = plt.subplots(figsize=(12, 7))
+
+    batch_sizes = list(results.keys())
+    throughputs = list(results.values())
+
+    # Main plot with enhanced styling
+    line = ax.plot(batch_sizes, throughputs,
+                  marker='o', markersize=8,
+                  linewidth=2.5, color='#2E86AB',
+                  markerfacecolor='#A23B72',
+                  markeredgecolor='white',
+                  markeredgewidth=1.5,
+                  label='Measured Throughput')
+
+    # Add data point annotations
+    for bs, tp in zip(batch_sizes, throughputs):
+        ax.annotate(f'{tp:.1f}',
+                    xy=(bs, tp),
+                    xytext=(0, 10),
+                    textcoords='offset points',
+                    ha='center',
+                    fontsize=8,
+                    alpha=0.8)
+
+    # Titles and labels with enhanced formatting
+    ax.set_title('LLM Inference Throughput vs Batch Size\nInternLM2-Chat-7B Performance Analysis',
+                fontsize=14, fontweight='bold', pad=20)
+    ax.set_xlabel('Batch Size (log scale)', fontsize=12, fontweight='bold')
+    ax.set_ylabel('Throughput (tokens/sec, log scale)', fontsize=12, fontweight='bold')
+
+    # Logarithmic scales
+    ax.set_xscale('log', base=2)
+    ax.set_yscale('log')
+
+    # Enhanced grid
+    ax.grid(True, which="major", ls="-", alpha=0.4, linewidth=1.2)
+    ax.grid(True, which="minor", ls=":", alpha=0.2, linewidth=0.8)
+
+    # Add reference lines for key batch sizes
+    if batch_sizes:
+        optimal_idx = np.argmax(throughputs)
+        optimal_bs = batch_sizes[optimal_idx]
+        optimal_tp = throughputs[optimal_idx]
+
+        ax.axvline(optimal_bs, color='green', linestyle='--',
+                  alpha=0.6, linewidth=1.5,
+                  label=f'Peak: BS={optimal_bs}')
+        ax.axhline(optimal_tp, color='green', linestyle='--',
+                  alpha=0.3, linewidth=1)
+
+    # Add statistics text box
+    stats_text = f'Peak Throughput: {max(throughputs):.2f} tok/s\n'
+    stats_text += f'Optimal Batch Size: {batch_sizes[np.argmax(throughputs)]}\n'
+    stats_text += f'Batch Size Range: {min(batch_sizes)}-{max(batch_sizes)}'
+
+    ax.text(0.02, 0.98, stats_text,
+            transform=ax.transAxes,
+            fontsize=9,
+            verticalalignment='top',
+            bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.5))
+
+    # Legend
+    ax.legend(loc='lower right', fontsize=10, framealpha=0.9)
+
+    # Customize spines
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    ax.spines['left'].set_linewidth(1.5)
+    ax.spines['bottom'].set_linewidth(1.5)
+
+    # Tight layout and save
+    plt.tight_layout()
+    plt.savefig('throughput_vs_batch_size_internlm2_chat_7b.png',
+                dpi=300, bbox_inches='tight')
     plt.close()
+
