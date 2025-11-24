@@ -16,6 +16,7 @@ batch_sizes = [1, 2, 4, 8, 16, 32, 64]
 
 def measure_throughput(model, prompts, batch_size, max_new_tokens=50):
     # preparing the batch of prompts
+    print(f"Measuring throughput for batch size: {batch_size}")
     batch_prompts = prompts * (batch_size // len(prompts)) + prompts[: batch_size % len(prompts)]
 
     start_time = time.time()
