@@ -25,6 +25,7 @@ def measure_throughput(model, prompts, batch_size, max_new_tokens=50):
     print(f"Measuring throughput for batch size: {batch_size}")
     batch_prompts = prompts * (batch_size // len(prompts)) + prompts[: batch_size % len(prompts)]
 
+    torch.cuda.synchronize() # ensuring all prev cuda operations are done
     start_time = time.time()
     outputs = model.generate(
         batch_prompts,
