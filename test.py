@@ -20,6 +20,6 @@ if __name__ == "__main__":
     except:
         print("No stats available for this model.")
 
-    print(f"log_stats(): {llm.llm_engine.log_stats()}")
+    print(f"log_stats(): {llm.llm_engine(log_stats=True)}")
     print(f"metrics: {output[0].metrics}")
     # print(output)
