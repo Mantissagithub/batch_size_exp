@@ -12,4 +12,9 @@ if __name__ == "__main__":
         sampling_params
     )
 
-    print(output)
+    print(f"output: {output}")
+
+    stats = llm.llm_engine.get_stats()
+    print(f"stats: {stats}")
+
+    # print(output)
