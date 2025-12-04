@@ -14,7 +14,12 @@ if __name__ == "__main__":
 
     print(f"output: {output}")
 
-    stats = llm.llm_engine.get_stats()
-    print(f"stats: {stats}")
+    try:
+        stats = llm.get_stats()
+        print(f"stats: {stats}")
+    except:
+        print("No stats available for this model.")
 
+    print(f"log_stats(): {llm.llm_engine.log_stats()}")
+    print(f"metrics: {output[0].metrics}")
     # print(output)
