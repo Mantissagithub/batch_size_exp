@@ -6,10 +6,35 @@ import torch
 model_name = "internlm/internlm2-chat-7b"
 
 prompts = [
-    "Tell me a joke about cats.",
-    "Explain the theory of relativity in simple terms.",
-    "What are the health benefits of regular exercise?",
-    "How does photosynthesis work in plants?",
+    # Original: "Tell me a joke about cats."
+    "You are a stand-up comedian known for witty animal puns and observational humor. Craft an original, family-friendly joke about cats that highlights their mischievous habit of knocking objects off tables at 3 AM, incorporating a clever pun on physics or gravity. Deliver it with perfect comedic timing, as if performing live to a giggling audience.",
+
+    # Original: "Explain the theory of relativity in simple terms."
+    "Act as a patient physics teacher explaining Einstein's theory of special and general relativity to a curious high school student who's never studied physics. Break it down into simple analogies—like comparing time dilation to a GPS satellite clock running slower in space, or gravity as curved spacetime like a trampoline with a bowling ball. Use everyday examples, avoid equations, and include a thought experiment to illustrate why nothing exceeds light speed.",
+
+    # Original: "What are the health benefits of regular exercise?"
+    "You are a certified fitness coach with a background in sports science. Provide a comprehensive overview of the top 10 evidence-based health benefits of regular aerobic and strength training exercise (at least 150 minutes per week), tailored for a busy adult in their 30s. Structure it with short-term vs. long-term effects, backed by simple stats from studies (e.g., WHO or CDC), and include practical tips like 'start with 10-minute walks' to build habits.",
+
+    # Original: "How does photosynthesis work in plants?"
+    "Pretend you're a biology professor leading a classroom demo on plant biology for middle schoolers. Explain the full process of photosynthesis step-by-step—from light absorption by chlorophyll in chloroplasts, to the light-dependent reactions splitting water and producing ATP/O2, then the Calvin cycle fixing CO2 into glucose. Use a flowchart analogy (e.g., sunlight as the 'power plant'), real-world examples like why leaves are green, and a simple equation in words: 6 CO2 + 6 H2O + light → C6H12O6 + 6 O2.",
+
+    # New: Tech/Programming
+    "You are a senior software engineer at a FAANG company mentoring a junior dev. Walk through optimizing a slow Python loop that processes 1 million rows of CSV data for duplicates, using pandas and NumPy. Include before/after code snippets, explain vectorization vs. iteration trade-offs, memory profiling tips with %timeit, and edge cases like large files (>10GB) on a laptop with 16GB RAM. Benchmark on realistic data shapes.",
+
+    # New: History/Creativity
+    "As a historical novelist like Hilary Mantel, write a 300-word immersive scene from the perspective of Cleopatra during her first meeting with Julius Caesar in 48 BCE. Focus on sensory details (Nile scents, Roman armor clinks), her strategic mindset calculating alliances, internal monologue blending ambition and vulnerability, and subtle foreshadowing of Egypt's fate. Use vivid, archaic-tinged language without modern anachronisms.",
+
+    # New: Cooking/Practical
+    "You're a Michelin-starred chef simplifying gourmet recipes for home cooks. Provide a foolproof, step-by-step recipe for vegan mushroom risotto for 4 servings, including ingredient substitutions for allergies (e.g., nut-free), exact timings/temps (e.g., Arborio rice simmered 18 mins), pro tips like 'stir clockwise for even creaminess,' nutritional breakdown per serving, and pairing suggestions with wine or sides.",
+
+    # New: Philosophy/Ethics
+    "Embody a Socratic philosopher debating modern AI ethics with a tech CEO. Pose 5 probing questions on the trolley problem applied to self-driving cars (e.g., 'Sacrifice one passenger to save five pedestrians?'), explore utilitarianism vs. deontology with real Tesla Autopilot examples, counterarguments from both sides, and conclude with actionable guidelines for responsible AI deployment.",
+
+    # New: Space/Science
+    "Channel Neil deGrasse Tyson explaining black holes to a sci-fi fan. Describe formation from massive star collapse, event horizon math via simple analogy (inescapable point like a cosmic one-way door), Hawking radiation evaporation over eons, and evidence from LIGO mergers or Event Horizon Telescope images. Debunk myths (e.g., 'not time machines') and speculate on wormholes with caveats.",
+
+    # New: Productivity/Self-Help
+    "You are a productivity expert like David Allen (Getting Things Done). Design a personalized weekly planner template for a freelancer juggling 3 clients, incorporating Eisenhower Matrix prioritization, Pomodoro sessions (25/5), zero-inbox email rituals, and reflection prompts. Format as a markdown table with columns for tasks, urgency/importance, time blocks, and wins/obstacles; include tools like Notion or Google Calendar integrations."
 ]
 
 batch_sizes = [1, 2, 4, 8, 16, 32, 64, 128, 256]
