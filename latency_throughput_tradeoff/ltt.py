@@ -11,7 +11,7 @@ batch_sizes = [1, 2, 4, 8, 16, 32, 64, 128, 256]
 
 def measure_latency_throughput(model_name, batch_size, prompt, max_new_tokens=50):
     print(f"Measuring for batch size: {batch_size}")
-    llm = LLM(model_name=model_name, tensor_parallel_size=torch.cuda.device_count())
+    llm = LLM(model=model_name, tensor_parallel_size=torch.cuda.device_count())
 
     sampling_params = SamplingParams(
         max_tokens=max_new_tokens,
