@@ -1,18 +1,25 @@
-from vllm import LLMEngine, AsyncEngineArgs, SamplingParams
+from vllm import LLM, SamplingParams
 
-engine_args = AsyncEngineArgs.from_cli_args(["--model", model_name])
-engine = LLMEngine.from_engine_args(engine_args, log_stats=True)
+if __name__ == "__main__":
+    model_name = "internlm/internlm-7b"
 
-req_id = "long_prompt"
-prompt = "The quick brown fox jumps over the lazy dog. " * 500
-params = SamplingParams(max_tokens=100)
-engine.add_request(req_id, prompt, params)
+    llm = LLM(model=model_name, tensor_parallel_size=1, trust_remote_code=True)
 
-peak_usage = 0.0
-while not engine.has_unfinished_requests():
-    step_outputs = engine.step()
-    stats = engine._get_stats()
-    peak_usage = max(peak_usage, stats.gpu_cache_usage)
-    print(f"Step KV usage: {stats.gpu_cache_usage:.2%}, blocks: {stats.num_gpu_total_blocks_used}")
+    sampling_params = SamplingParams()
 
-print(f"Peak KV usage: {peak_usage:.2%}")
+    output = llm.generate(
+        ["Explain the theory of relativity in simple terms."],
+        sampling_params
+    )
+
+    print(f"output: {output}")
+
+    try:
+        stats = llm.get_stats()
+        print(f"stats: {stats}")
+    except:
+        print("No stats available for this model.")
+
+    print(f"log_stats(): {llm.llm_engine.log_stats()}")
+    print(f"metrics: {output[0].metrics}")
+    # print(output)

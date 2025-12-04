@@ -2,3 +2,4 @@ vllm
 torch
 matplotlib
 numpy
+tiktoken
