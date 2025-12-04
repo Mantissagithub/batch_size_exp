@@ -14,7 +14,10 @@ prompts = [
 
 batch_sizes = [1, 2, 4, 8, 16, 32, 64, 128, 256]
 
-def measure_throughput(model, prompts, batch_size, max_new_tokens=50):
+def measure_throughput(prompts, batch_size, max_new_tokens=50):
+
+    model = LLM(model_name, tensor_parallel_size=torch.cuda.device_count(), trust_remote_code=True)
+
     # preparing the batch of prompts
     print(f"Measuring throughput for batch size: {batch_size}")
     batch_prompts = prompts * (batch_size // len(prompts)) + prompts[: batch_size % len(prompts)]
@@ -34,12 +37,12 @@ def measure_throughput(model, prompts, batch_size, max_new_tokens=50):
     return throughput
 
 if __name__ == "__main__":
-    model = LLM(model_name, tensor_parallel_size=torch.cuda.device_count(), trust_remote_code=True)
-
+    # model = LLM(model_name, tensor_parallel_size=torch.cuda.device_count(), trust_remote_code=True)
+#
     results = {}
 
     for batch_size in batch_sizes:
-        throughput = measure_throughput(model, prompts, batch_size)
+        throughput = measure_throughput(prompts, batch_size)
         print(f"Batch Size: {batch_size}, Throughput: {throughput:.2f} tokens/sec")
 
         results[batch_size] = throughput
