@@ -9,7 +9,7 @@ if __name__ == "__main__":
 
     output = llm.generate(
         ["Explain the theory of relativity in simple terms."],
-        sampling_params, batch_size=1
+        sampling_params
     )
 
     print(output)
