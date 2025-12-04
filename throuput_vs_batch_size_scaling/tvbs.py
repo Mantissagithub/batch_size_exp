@@ -13,7 +13,7 @@ prompts = [
     "How does photosynthesis work in plants?",
 ]
 
-batch_sizes = [1, 2, 4, 8, 16, 32, 64, 128, 256]
+batch_sizes = [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192]
 
 def count_tokens(text, model_name=model_name):
     encoding = tiktoken.get_encoding(model_name)
